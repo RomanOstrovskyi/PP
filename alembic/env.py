@@ -1,8 +1,5 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
 
 # this is the Alembic Config object, which provides
@@ -25,10 +22,9 @@ current_path = os.path.dirname(os.path.abspath(__file__))
 ROOT_PATH = os.path.join(current_path, '..')
 sys.path.append(ROOT_PATH)
 
-from model import *
+from apischm.tablets import *
 
 target_metadata = Base.metadata
-
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -67,11 +63,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    connectable = engine
 
     with connectable.connect() as connection:
         context.configure(
